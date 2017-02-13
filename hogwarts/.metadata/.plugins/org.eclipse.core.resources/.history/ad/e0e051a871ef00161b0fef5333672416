@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta charset = "utf-8">
+<meta http-equiv = "X-UA-Compatible" content = "IE = edge">
+<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+
+<link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">          
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>    
+<script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>   
+       
+<title>dashboard</title>
+</head>
+<body>
+  <div class="container">
+   	<div class = "dropdown">
+   		<button type = "button" class = "btn dropdown-toggle" id = "dropdownMenu1" data-toggle = "dropdown">
+      		Teams
+      		<span class = "caret"></span>
+   		</button>
+   
+  		 <ul class = "dropdown-menu" role = "menu" aria-labelledby = "dropdownMenu1">
+      		<li id="li-element" role = "presentation">
+         		<a id='a-element' role = "menuitem" tabindex = "-1" href = "#">Gryffindor</a>
+      		</li>
+      
+      		<li role = "presentation">
+         		<a id='a-element' role = "menuitem" tabindex = "-1" href = "#">Hufflepuf</a>
+      		</li>
+      
+      		<li role = "presentation">
+         		<a id='a-element' role = "menuitem" tabindex = "-1" href = "#">Ravenclaw</a>
+      		</li>
+      		
+      		<li role = "presentation">
+         		<a id='a-element' role = "menuitem" tabindex = "-1" href = "#">Slytherin</a>
+      		</li>
+   		</ul>   
+	</div>
+	</div>
+	
+	<div></div>
+</body>
+
+<script>
+	var xhr = new XMLHttpRequest();
+	
+	/* var element = document.getElementById('a-element'); */
+	
+	var elements = document.getElementsByTagName('li');
+	
+	for (var i in elements)	{
+		
+		var childNodes = elements[i].childNodes;
+		
+		elements[i].addEventListener('click', function() {
+					
+			var text = childNodes[0].innerText; 
+			
+			var name = 'Gryffindor';
+				
+			xhr.open('GET', 'dashboard.json?team='+text, false);
+			
+			xhr.send();
+			
+			if (xhr.status != 200)
+				{
+				alert(xhr.status + ':' + xhr.statusText);
+				}
+			else
+				{
+				alert(text);
+				}
+		})			
+	}	
+	
+</script>
+
+<!-- <script type="text/javascript" src="js/hogwartsDashboard.js" ></script> -->
+
+<!-- <script>
+ var liElement = document.getElementById('li-element');
+
+/* liElement.onclick = function() {
+	alert("Wow!"); 
+} */
+	
+ $('#li-element').click(function() {
+	$.ajax({
+		url: "/home/dashboard",		
+		type: 'POST'
+		data: "Slytherin"
+	})
+} 
+
+</script> -->
+
+</html>

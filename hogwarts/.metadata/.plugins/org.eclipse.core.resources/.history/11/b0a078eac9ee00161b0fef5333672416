@@ -1,0 +1,11 @@
+
+$(document).ready(function(){                            // по завершению загрузки страницы
+    $('#li-element').click(function(){                    // вешаем на клик по элементу с id = example-4
+        $.getJSON('ajax/dashboard.json', {}, function(json){  // загрузку JSON данных из файла example.json   
+            $('#li-element').html('');
+                                                         // заполняем DOM элемент данными из JSON объекта
+            $('#li-element').append('team: '   + json.team + '<br/>')
+                           .append('developers: ' + json.developers + '<br/>')
+        });                
+    })
+});

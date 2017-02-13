@@ -1,0 +1,5 @@
+var liElement = document.getElementById('li-element');
+
+liElement.onclick = function() {
+	alert("Wow!");
+}
