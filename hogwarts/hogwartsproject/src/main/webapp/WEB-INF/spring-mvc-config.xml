@@ -43,4 +43,6 @@
 	
 <!-- <bean id="hogwartsController" class="com.mentoringproject.hogwarts.web.HogwartsController" />  -->	
 
+ <!--  <bean id="performanceMonitor" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" /> -->
+
 </beans>
