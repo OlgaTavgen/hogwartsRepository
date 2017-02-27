@@ -18,8 +18,7 @@ public class HogwartsService
 	protected HogwartsEntryFactory hogwartsEntryFactory;
 	
 	public HogwartsRequest forTeam(final String team)
-	{
-		// need to be updated
+	{		
 		return new HogwartsRequest(team);
 	}
 	
