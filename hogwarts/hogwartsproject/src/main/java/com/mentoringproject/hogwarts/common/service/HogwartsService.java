@@ -1,21 +1,26 @@
-package com.mentoringproject.hogwarts.service;
+package com.mentoringproject.hogwarts.common.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mentoringproject.hogwarts.model.HogwartsDeveloper;
-import com.mentoringproject.hogwarts.model.HogwartsDeveloperItem;
-import com.mentoringproject.hogwarts.model.HogwartsResultsResponse;
-import com.mentoringproject.hogwarts.model.HogwartsTask;
-import com.mentoringproject.hogwarts.model.HogwartsTaskItem;
+import com.mentoringproject.hogwarts.common.model.HogwartsResultsResponse;
+import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloper;
+import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloperItem;
+import com.mentoringproject.hogwarts.developers.service.HogwartsDeveloperService;
+import com.mentoringproject.hogwarts.tasks.model.HogwartsTask;
+import com.mentoringproject.hogwarts.tasks.model.HogwartsTaskItem;
+import com.mentoringproject.hogwarts.tasks.service.HogwartsTaskService;
 
 @Service("hogwartsService")
 public class HogwartsService
 {
 	@Autowired
-	protected HogwartsEntryFactory hogwartsEntryFactory;
+	protected HogwartsDeveloperService hogwartsDeveloperService;
+	
+	@Autowired
+	protected HogwartsTaskService hogwartsTaskService;
 	
 	public HogwartsRequest forTeam(final String team)
 	{		
@@ -52,9 +57,9 @@ public class HogwartsService
 	
 	public void populateResponseForTeam(final HogwartsResultsResponse response)
 	{
-		final List<HogwartsDeveloper> developers = hogwartsEntryFactory.createDevelopersFromXML(response);
+		final List<HogwartsDeveloper> developers = hogwartsDeveloperService.createDevelopersFromXML(response);
 					
-		final List<HogwartsTask> tasks = hogwartsEntryFactory.createTasksFromXML();
+		final List<HogwartsTask> tasks = hogwartsTaskService.createTasksFromXML();
 		
 		response.getDeveloperItem().getDevelopers().addAll(developers);
 		response.getTaskItem().getTasks().addAll(tasks);
