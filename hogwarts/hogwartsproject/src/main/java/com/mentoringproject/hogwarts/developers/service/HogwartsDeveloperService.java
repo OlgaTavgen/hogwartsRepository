@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,12 +18,24 @@ import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
 import com.mentoringproject.hogwarts.common.model.HogwartsResultsResponse;
+import com.mentoringproject.hogwarts.developers.dao.HogwartsDeveloperDao;
 import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloper;
+import com.mentoringproject.hogwarts.tasks.dao.HogwartsTaskDao;
+import com.mentoringproject.hogwarts.tasks.service.HogwartsTaskDOMParser;
 import com.shared.model.XMLTagsLocators;
+import com.shared.model.developers.Developer;
+import com.shared.model.tasks.Task;
+import com.shared.model.teams.TeamEnum;
 
 @Component
-public class HogwartsDeveloperService
+public class HogwartsDeveloperService extends HogwartsDeveloper
 {
+	@Autowired
+	private HogwartsDeveloperDOMParser hogwartsDeveloperDOMParser;
+	
+	@Autowired
+	private HogwartsDeveloperDao hogwartsDeveloperDao;
+	
 	private final static String DEVELOPERS_XML_PATH = "D:/REPOSITORIES/mentoringRepository/mentoringproject/src/main/resources/xml/developer.xml";
 	
 	public List<HogwartsDeveloper> createDevelopersFromXML(final HogwartsResultsResponse response)
@@ -46,31 +59,32 @@ public class HogwartsDeveloperService
 				if(teamElement.getAttribute(XMLTagsLocators.TEAM_NAME_ATTR).equals(response.getTeam()))
 				{
 					final NodeList developersList = teamElement.getElementsByTagName(XMLTagsLocators.DEVELOPER);
+					
+					final HogwartsDeveloper  developer = new HogwartsDeveloper();
 				
 					for(int devCount=0; devCount<developersList.getLength(); devCount++)
 					{
 						Node developerNode = developersList.item(devCount);					
 						Element developerElement = (Element)developerNode;
 
-						final HogwartsDeveloper  developer = new HogwartsDeveloper();
-					
-						final Element firstNameElement = (Element) developerElement.getElementsByTagName(XMLTagsLocators.DEVELOPER_FIRSTNAME).item(0);
-						final String firstName = firstNameElement.getFirstChild().getNodeValue();
-						developer.setFirstName(firstName);
-						
-						final Element lastNameElement = (Element) developerElement.getElementsByTagName(XMLTagsLocators.DEVELOPER_LASTNAME).item(0);
-						final String lastName = lastNameElement.getFirstChild().getNodeValue();
-						developer.setLastName(lastName);
-						
-						final Element nicknameElement = (Element) developerElement.getElementsByTagName(XMLTagsLocators.DEVELOPER_NICKNAME).item(0);
-						final String nickname = nicknameElement.getFirstChild().getNodeValue();
-						developer.setNickname(nickname);
-						
-						final Element primarySkillElement = (Element) developerElement.getElementsByTagName(XMLTagsLocators.DEVELOPER_PRIMARYSKILL).item(0);
-						final String primarySkill = primarySkillElement.getFirstChild().getNodeValue();
-						developer.setPrimarySkill(primarySkill);
-					
-						developers.add(developer);
+						try 
+						{
+							final HogwartsDeveloper developerClone = developer.clone();
+							
+							hogwartsDeveloperDOMParser.parseDeveloper(developerElement);
+							
+							final String firstName = hogwartsDeveloperDOMParser.getFirstName();
+							final String lastName = hogwartsDeveloperDOMParser.getLastName();
+							final String nickname = hogwartsDeveloperDOMParser.getNickname();
+							final String primarySkill = hogwartsDeveloperDOMParser.getPrimarySkill();
+							
+							developerClone.updateDeveloperInfo(firstName, lastName, nickname, primarySkill);
+							developers.add(developerClone);
+						}						
+						catch (CloneNotSupportedException e)
+						{
+							e.printStackTrace();
+						}
 					}					
 				}		
 			}
@@ -93,8 +107,17 @@ public class HogwartsDeveloperService
 			ioe.printStackTrace ();
 		} 
 		
-		return developers;
+		return developers;	
+	}
 	
+	public void addDeveloper(final Developer developer, final TeamEnum team)
+	{		
+		hogwartsDeveloperDao.addDeveloper(developer, team);
+	}
+	
+	public void deleteDeveloper(final Developer developer, final TeamEnum team)
+	{		
+		hogwartsDeveloperDao.deleteDeveloper(developer, team);
 	}
 
 }

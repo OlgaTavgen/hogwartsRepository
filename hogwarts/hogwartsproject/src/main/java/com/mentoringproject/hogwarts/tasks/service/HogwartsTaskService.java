@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,12 +17,26 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
+import com.mentoringproject.hogwarts.common.service.HogwartsItem;
+import com.mentoringproject.hogwarts.common.service.HogwartsItemFactory;
+import com.mentoringproject.hogwarts.tasks.dao.HogwartsTaskDao;
 import com.mentoringproject.hogwarts.tasks.model.HogwartsTask;
 import com.shared.model.XMLTagsLocators;
+import com.shared.model.tasks.Task;
+import com.shared.model.tasks.TaskEnum;
 
 @Component
 public class HogwartsTaskService
 {
+	@Autowired
+	private HogwartsItemFactory hogwartsItemFactory;
+	
+	@Autowired
+	private HogwartsTaskDao hogwartsTaskDao;
+	
+	@Autowired
+	private HogwartsTaskDOMParser hogwartsTaskDOMParser;
+	
 	private final static String TASKS_XML_PATH = "D:/REPOSITORIES/mentoringRepository/mentoringproject/src/main/resources/xml/task.xml";
 	
 	public List<HogwartsTask> createTasksFromXML()
@@ -42,32 +57,22 @@ public class HogwartsTaskService
 				Node taskNode = tasksList.item(taskCount);
 				Element taskElement = (Element) taskNode;
 				
-				final HogwartsTask task = new HogwartsTask();
+				final HogwartsItem item = hogwartsItemFactory.getItem("TASK");
 				
-				final String id = taskElement.getAttribute(XMLTagsLocators.TASK_ID_ATTR).toString();
-				task.setId(id);
+//				final HogwartsTask task = new HogwartsTask();
 				
-				final Element typeElement = (Element) taskElement.getElementsByTagName(XMLTagsLocators.TASK_TYPE).item(0);
-				final String type = typeElement.getFirstChild().getNodeValue();
-				task.setType(type);
+				hogwartsTaskDOMParser.parseTask(taskElement);
 				
-				final Element descriptionElement = (Element) taskElement.getElementsByTagName(XMLTagsLocators.TASK_DESCRIPTION).item(0);
-				final String description = descriptionElement.getFirstChild().getNodeValue();
-				task.setDescription(description);
+				final String id = hogwartsTaskDOMParser.getId();
+				final String type = hogwartsTaskDOMParser.getType();
+				final String description = hogwartsTaskDOMParser.getDescription();
+				final String estimate = hogwartsTaskDOMParser.getEstimate();
+				final String priority = hogwartsTaskDOMParser.getPriority();
+				final String severity = hogwartsTaskDOMParser.getSeverity();
 				
-				final Element estimateElement = (Element) taskElement.getElementsByTagName(XMLTagsLocators.TASK_ESTIMATE).item(0);
-				final String estimate = estimateElement.getFirstChild().getNodeValue();
-				task.setEstimate(estimate);
-				
-				final Element priorityElement = (Element) taskElement.getElementsByTagName(XMLTagsLocators.TASK_PRIORITY).item(0);
-				final String priority = priorityElement.getFirstChild().getNodeValue();
-				task.setPriority(priority);
-				
-				final Element severityElement = (Element) taskElement.getElementsByTagName(XMLTagsLocators.TASK_SEVERITY).item(0);
-				final String severity = severityElement.getFirstChild().getNodeValue();
-				task.setSeverity(severity);
+				item.create(id, type, description, estimate, priority, severity);
 					
-				tasks.add(task);					
+				tasks.add((HogwartsTask) item);					
 			}
 		
 			return tasks;	
@@ -90,5 +95,14 @@ public class HogwartsTaskService
 		
 		return tasks;
 	}
-
+	
+	public void addTask(final Task task)
+	{		
+		hogwartsTaskDao.addTask(task);
+	}
+	
+	public void deleteTask(final Task task)
+	{		
+		hogwartsTaskDao.deleteTask(task);
+	}
 }

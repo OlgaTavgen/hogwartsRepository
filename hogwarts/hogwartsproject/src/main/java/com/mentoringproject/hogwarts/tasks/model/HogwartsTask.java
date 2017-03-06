@@ -2,7 +2,9 @@ package com.mentoringproject.hogwarts.tasks.model;
 
 import org.apache.commons.lang.StringUtils;
 
-public class HogwartsTask
+import com.mentoringproject.hogwarts.common.service.HogwartsItem;
+
+public class HogwartsTask implements HogwartsItem
 {
 	private String id = StringUtils.EMPTY;
 	private String type = StringUtils.EMPTY;
@@ -10,6 +12,8 @@ public class HogwartsTask
 	private String estimate = StringUtils.EMPTY;
 	private String priority = StringUtils.EMPTY;
 	private String severity = StringUtils.EMPTY;
+	
+	private String param = StringUtils.EMPTY;
 	
 	
 	public String getId() {
@@ -65,5 +69,22 @@ public class HogwartsTask
 	public void setSeverity(String severity)
 	{
 		this.severity = severity;
+	}
+	
+	public String getParam() {
+		return param;
+	}
+
+	public void setParam(String param) {
+		this.param = param;
 	}	
+
+	@Override
+	public void create(String... params) 
+	{		
+		for (final String param : params)		
+		{
+			this.setParam(param);
+		}
+	}
 }

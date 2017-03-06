@@ -1,7 +1,10 @@
 package com.mentoringproject.hogwarts.tasks.dao;
 
+import org.springframework.stereotype.Component;
+
 import com.shared.model.tasks.Task;
 
+@Component
 public interface HogwartsTaskDao 
 {
 	public void addTask(Task task);

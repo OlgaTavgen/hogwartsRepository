@@ -1,8 +1,11 @@
 package com.mentoringproject.hogwarts.developers.dao;
 
+import org.springframework.stereotype.Component;
+
 import com.shared.model.developers.Developer;
 import com.shared.model.teams.TeamEnum;
 
+@Component
 public class HogwartsDeveloperDaoImpl implements HogwartsDeveloperDao {
 
 	@Override
