@@ -59,8 +59,6 @@ public class HogwartsTaskService
 				
 				final HogwartsItem item = hogwartsItemFactory.getItem("TASK");
 				
-//				final HogwartsTask task = new HogwartsTask();
-				
 				hogwartsTaskDOMParser.parseTask(taskElement);
 				
 				final String id = hogwartsTaskDOMParser.getId();
