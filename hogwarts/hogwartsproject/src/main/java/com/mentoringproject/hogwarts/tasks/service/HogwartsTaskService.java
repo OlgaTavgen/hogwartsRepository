@@ -22,8 +22,8 @@ import com.mentoringproject.hogwarts.common.service.HogwartsItemFactory;
 import com.mentoringproject.hogwarts.tasks.dao.HogwartsTaskDao;
 import com.mentoringproject.hogwarts.tasks.model.HogwartsTask;
 import com.shared.model.XMLTagsLocators;
-import com.shared.model.tasks.Task;
-import com.shared.model.tasks.TaskEnum;
+import com.shared.model.tasks.xml.Task;
+import com.shared.model.tasks.xml.TaskEnum;
 
 @Component
 public class HogwartsTaskService

@@ -15,8 +15,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.shared.model.XMLTagsLocators;
-import com.shared.model.tasks.Task;
-import com.shared.model.tasks.TaskEnum;
+import com.shared.model.tasks.xml.Task;
+import com.shared.model.tasks.xml.TaskEnum;
 
 public class TaskDocumentXMLParser implements DocumentInterface
 {

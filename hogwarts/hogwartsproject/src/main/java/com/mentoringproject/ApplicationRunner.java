@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import com.mentoringproject.classloading.MyOwnClassLoader;
 import com.mentoringproject.hogwarts.common.service.HogwartsGetPropertyVaules;
 import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloper;
@@ -12,7 +15,9 @@ import com.mentoringproject.troubleshooting.TestMemoryLeak;
 import com.mentoringproject.troubleshooting.TestThread;
 import com.shared.service.DeveloperDocumentXMLParser;
 import com.shared.service.TaskDocumentXMLParser;
+import com.sun.research.ws.wadl.Application;
 
+@SpringBootApplication
 public class ApplicationRunner
 {
 	
@@ -47,7 +52,9 @@ public class ApplicationRunner
 //        
 //        System.out.println(c.getClass());
 		
-		HogwartsGetPropertyVaules properties = new HogwartsGetPropertyVaules();
-		properties.getPropValues();
+//		HogwartsGetPropertyVaules properties = new HogwartsGetPropertyVaules();
+//		properties.getPropValues();
+		
+		SpringApplication.run(Application.class, args);		
 	}	
 }

@@ -1,0 +1,29 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+           targetNamespace="http://spring.io/guides/gs-producing-web-service" elementFormDefault="qualified">
+
+    <xs:element name="getTaskRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="type" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getTaskResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="task" type="tns:task"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="task">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="estimate" type="xs:string"/>
+            <xs:element name="priority" type="xs:string"/>
+            <xs:element name="severity" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>   
+</xs:schema>

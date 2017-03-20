@@ -2,7 +2,7 @@ package com.mentoringproject.hogwarts.tasks.dao;
 
 import org.springframework.stereotype.Component;
 
-import com.shared.model.tasks.Task;
+import com.shared.model.tasks.xml.Task;
 
 @Component
 public interface HogwartsTaskDao 

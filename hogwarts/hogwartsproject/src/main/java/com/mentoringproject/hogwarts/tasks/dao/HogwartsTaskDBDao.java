@@ -1,6 +1,6 @@
 package com.mentoringproject.hogwarts.tasks.dao;
 
-import com.shared.model.tasks.Task;
+import com.shared.model.tasks.xml.Task;
 
 public class HogwartsTaskDBDao implements HogwartsTaskDao {
 

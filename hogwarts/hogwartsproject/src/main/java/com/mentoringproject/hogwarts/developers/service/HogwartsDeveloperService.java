@@ -24,7 +24,7 @@ import com.mentoringproject.hogwarts.tasks.dao.HogwartsTaskDao;
 import com.mentoringproject.hogwarts.tasks.service.HogwartsTaskDOMParser;
 import com.shared.model.XMLTagsLocators;
 import com.shared.model.developers.Developer;
-import com.shared.model.tasks.Task;
+import com.shared.model.tasks.xml.Task;
 import com.shared.model.teams.TeamEnum;
 
 @Component
