@@ -3,9 +3,13 @@ package com.mentoringproject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.mentoringproject.classloading.MyOwnClassLoader;
 import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloper;
 import com.mentoringproject.hogwarts.developers.web.HogwartsDeveloperDTO;
+import com.mentoringproject.springcore.Hogwarts;
 import com.mentoringproject.troubleshooting.TestMemoryLeak;
 import com.mentoringproject.troubleshooting.TestThread;
 import com.shared.service.DeveloperDocumentXMLParser;
@@ -38,12 +42,16 @@ public class ApplicationRunner
 //		
 //		System.out.println(developerDTO.getClass().getClassLoader());
 		
-		MyOwnClassLoader loader = new MyOwnClassLoader();
-        Class<?> c = loader.findClass("com.mentoringproject.hogwarts.developers.web.HogwartsDeveloperDTO");
-        Object ob = c.newInstance();
-        Method md = c.getMethod("show");
-        md.invoke(ob);
-        
-        System.out.println(c.getClass());
+//		MyOwnClassLoader loader = new MyOwnClassLoader();
+//        Class<?> c = loader.findClass("com.mentoringproject.hogwarts.developers.web.HogwartsDeveloperDTO");
+//        Object ob = c.newInstance();
+//        Method md = c.getMethod("show");
+//        md.invoke(ob);
+//        
+//        System.out.println(c.getClass());
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("file:src/main/resources/spring-beans.xml");
+		Hogwarts hogwarts = (Hogwarts) context.getBean("HogwartsBean");
+		System.out.println(hogwarts);
 	}	
 }
