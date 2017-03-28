@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 
-@PropertySource("classpath:src/main/resources/beans-props.properties")
+//@PropertySource("classpath:/src/main/resources/beans-props.properties")
 public class HogwartsDeveloper {
 
 	private String firstName = StringUtils.EMPTY;
@@ -14,7 +14,7 @@ public class HogwartsDeveloper {
 	private String nickname = StringUtils.EMPTY;
 	private String primarySkill = StringUtils.EMPTY;
 	
-	@Value("${developerLevel}")
+//	@Value("${developerLevel}")
 	private String level;
 	
 	private Map tasks;
