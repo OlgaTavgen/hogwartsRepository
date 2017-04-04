@@ -16,8 +16,7 @@ import com.shared.service.DeveloperDocumentXMLParser;
 import com.shared.service.TaskDocumentXMLParser;
 
 public class ApplicationRunner
-{
-	
+{	
 	public static void main(String args[]) throws InstantiationException, IllegalAccessException,
     NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException 
 	{
