@@ -99,6 +99,10 @@ public class ApplicationRunner
 //		System.out.println("changed Level " + hogwartsDeveloperDaoImpl.getDeveloper("Tavgen2").getLevel());
 		
 		System.out.println("get all developers " + hogwartsDeveloperDaoImpl.getDevelopers());
+		
+		
+		
+		System.out.println("simple change");
 	
 	}	
 }
