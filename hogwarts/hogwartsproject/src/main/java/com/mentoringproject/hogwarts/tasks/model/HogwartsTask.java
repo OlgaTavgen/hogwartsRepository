@@ -1,5 +1,7 @@
 package com.mentoringproject.hogwarts.tasks.model;
 
+import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
 
 public class HogwartsTask
@@ -10,6 +12,8 @@ public class HogwartsTask
 	private String estimate = StringUtils.EMPTY;
 	private String priority = StringUtils.EMPTY;
 	private String severity = StringUtils.EMPTY;
+	
+	private Properties props;
 	
 	
 	public String getId() {
@@ -66,4 +70,21 @@ public class HogwartsTask
 	{
 		this.severity = severity;
 	}	
+	
+	public Properties getProps()
+	{
+		return props;
+	}
+
+	public void setProps(Properties props)
+	{
+		this.props = props;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Task [id=" + id + ", type=" + type + ", description=" + description + ", estimate=" + estimate +
+				", priority=" + priority + ", severity=" + severity + ", props" + props + "]";
+	}
 }
