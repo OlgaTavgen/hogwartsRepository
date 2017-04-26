@@ -1,13 +1,26 @@
 package com.mentoringproject.hogwarts.developers.dao;
 
+import java.util.List;
+
 import com.shared.model.developers.Developer;
-import com.shared.model.teams.TeamEnum;
 
 public interface HogwartsDeveloperDao
 {
 	
-	public void addDeveloper(Developer developer, TeamEnum team);
+	public void addDeveloper(String firstName, String lastName, String nickname, String primarySkill, String level, int team);
+		
+	public void updateDeveloperFirstName(String firstName, String newFirstName);
 	
-	public void deleteDeveloper(Developer developer, TeamEnum team);
+	public void updateDeveloperLastName(String lastName, String firstName);
+	
+	public void updateDeveloperPrimarySkill(String primarySkill, String firstName);
+
+	public void updateDeveloperLevel(String level, String firstName);
+	
+	public Developer getDeveloper(String lastName);
+	
+	public List<Developer> getDevelopers();
+	
+	public void deleteDeveloper(String firstName);
 
 }

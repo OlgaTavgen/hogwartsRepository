@@ -6,6 +6,7 @@ public class Developer {
 	private String lastName;
 	private String nickname;
 	private String primarySkill;
+	private String level;
 	
 	private Developer(final Developer prototype)
 	{
@@ -16,6 +17,7 @@ public class Developer {
 			lastName = prototype.lastName;
 			nickname = prototype.nickname;
 			primarySkill = prototype.primarySkill;
+			level = prototype.level;
 			//@formatter:on
 		}		
 	}
@@ -48,6 +50,11 @@ public class Developer {
 	public String getPrimarySkill()
 	{
 		return primarySkill;
+	}	
+	
+	public String getLevel()
+	{
+		return level;
 	}	
 
 	public static final class Builder
@@ -83,6 +90,13 @@ public class Developer {
 		public Builder primarySkill(String primarySkill)
 		{
 			prototype.primarySkill = primarySkill;
+			
+			return this;
+		}
+		
+		public Builder level(String level)
+		{
+			prototype.level = level;
 			
 			return this;
 		}
