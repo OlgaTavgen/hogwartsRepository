@@ -16,6 +16,14 @@
 	<context:component-scan base-package="com.mentoringproject" />
 	
  	<mvc:default-servlet-handler /> 
+ 	
+<!--  	<bean id="aspectBean1" class="com.MyClassNameForAspect1" />
+    <bean id="aspectBean2" class="com.MyClassNameForAspect2" />  
+  
+    <aop:aspectj-autoproxy>
+        <aop:include name="aspectBean1"/>
+        <aop:include name="aspectBean2"/>
+    </aop:aspectj-autoproxy> -->
 	
 	
 <!--	<bean id="viewResolver"

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="helloworld.GreeterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-04-26T13:18:52" hostname="EPBYMINW3635" time="0.005">
+  <properties/>
+  <testcase name="testSayHello" classname="helloworld.GreeterTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
