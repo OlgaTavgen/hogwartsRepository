@@ -43,10 +43,10 @@ public class HogwartsController
 	
 	@ResponseBody
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-//	public HogwartsResultsResponseDTO retrieveResults(@RequestParam(required = true) final String team)
-	public HogwartsResultsResponseDTO retrieveResults()
+	public HogwartsResultsResponseDTO retrieveResults(@RequestParam(required = true) final String team)
+//	public HogwartsResultsResponseDTO retrieveResults()
 	{
-		final String team = "Slytherin";
+//		final String team = "Slytherin";
 		final HogwartsRequest request = hogwartsService.forTeam(team);
 		final HogwartsResultsResponse response = request.retrieveResults();
 		
