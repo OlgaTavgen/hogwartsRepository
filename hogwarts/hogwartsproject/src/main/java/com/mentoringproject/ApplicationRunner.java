@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.mentoringproject.classloading.MyOwnClassLoader;
-import com.mentoringproject.hogwarts.developers.dao.HogwartsDeveloperDaoImpl;
+//import com.mentoringproject.hogwarts.developers.dao.HogwartsDeveloperDaoImplTest;
 import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloper;
 import com.mentoringproject.hogwarts.developers.web.HogwartsDeveloperDTO;
 import com.mentoringproject.springcore.Hogwarts;
@@ -78,7 +78,7 @@ public class ApplicationRunner
 //}
 	
 		ApplicationContext context = new ClassPathXmlApplicationContext("file:src/main/resources/spring-beans.xml");
-		HogwartsDeveloperDaoImpl hogwartsDeveloperDaoImpl = (HogwartsDeveloperDaoImpl) context.getBean("hogwartsDeveloperDaoImpl");
+//		HogwartsDeveloperDaoImplTest hogwartsDeveloperDaoImpl = (HogwartsDeveloperDaoImplTest) context.getBean("hogwartsDeveloperDaoImpl");
 		
 //		hogwartsDeveloperDaoImpl.addDeveloper("Olga", "Tavgen", "java", "otavgen", "2", 3);
 		
@@ -98,7 +98,7 @@ public class ApplicationRunner
 //		hogwartsDeveloperDaoImpl.updateDeveloperLevel("level2", "Olga2");		
 //		System.out.println("changed Level " + hogwartsDeveloperDaoImpl.getDeveloper("Tavgen2").getLevel());
 		
-		System.out.println("get all developers " + hogwartsDeveloperDaoImpl.getDevelopers());
+//		System.out.println("get all developers " + hogwartsDeveloperDaoImpl.getDevelopers());
 		
 		
 		
