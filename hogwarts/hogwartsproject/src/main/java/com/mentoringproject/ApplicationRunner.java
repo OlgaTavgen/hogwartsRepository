@@ -2,11 +2,15 @@ package com.mentoringproject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Exchanger;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.Semaphore;
+import java.util.stream.Collectors;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,15 +21,18 @@ import com.mentoringproject.concurrency.cyclicbarrier.CyclicBarrierAction;
 import com.mentoringproject.concurrency.cyclicbarrier.CyclicBarrierThread;
 import com.mentoringproject.concurrency.exchanger.ExchangerMakeThread;
 import com.mentoringproject.concurrency.exchanger.ExchangerUseThread;
+import com.mentoringproject.concurrency.forkjoin.MyRecursiveAction;
 import com.mentoringproject.concurrency.phaser.PhaserThread;
 import com.mentoringproject.concurrency.semaphore.DecThread;
 import com.mentoringproject.concurrency.semaphore.IncThread;
+import com.mentoringproject.hogwarts.developers.dao.HogwartsDeveloperDaoImpl;
 //import com.mentoringproject.hogwarts.developers.dao.HogwartsDeveloperDaoImplTest;
 import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloper;
 import com.mentoringproject.hogwarts.developers.web.HogwartsDeveloperDTO;
 import com.mentoringproject.springcore.Hogwarts;
 import com.mentoringproject.troubleshooting.TestMemoryLeak;
 import com.mentoringproject.troubleshooting.TestThread;
+import com.shared.model.developers.Developer;
 import com.shared.model.teams.TeamEnum;
 import com.shared.service.DeveloperDocumentXMLParser;
 import com.shared.service.TaskDocumentXMLParser;
@@ -90,8 +97,8 @@ public class ApplicationRunner
 //      ex.printStackTrace();
 //}
 	
-//		ApplicationContext context = new ClassPathXmlApplicationContext("file:src/main/resources/spring-beans.xml");
-//		HogwartsDeveloperDaoImplTest hogwartsDeveloperDaoImpl = (HogwartsDeveloperDaoImplTest) context.getBean("hogwartsDeveloperDaoImpl");
+		ApplicationContext context = new ClassPathXmlApplicationContext("file:src/main/resources/spring-beans.xml");
+		HogwartsDeveloperDaoImpl hogwartsDeveloperDaoImpl = (HogwartsDeveloperDaoImpl) context.getBean("hogwartsDeveloperDaoImpl");
 		
 //		hogwartsDeveloperDaoImpl.addDeveloper("Olga", "Tavgen", "java", "otavgen", "2", 3);
 		
@@ -111,11 +118,9 @@ public class ApplicationRunner
 //		hogwartsDeveloperDaoImpl.updateDeveloperLevel("level2", "Olga2");		
 //		System.out.println("changed Level " + hogwartsDeveloperDaoImpl.getDeveloper("Tavgen2").getLevel());
 		
-//		System.out.println("get all developers " + hogwartsDeveloperDaoImpl.getDevelopers());
-		
-		
-		
+//		System.out.println("get all developers " + hogwartsDeveloperDaoImpl.getDevelopers());		
 //		System.out.println("simple change");
+		
 		
 		//test Semaphore
 		Semaphore semaphore = new Semaphore(1);
@@ -187,5 +192,33 @@ public class ApplicationRunner
 		
 		if(phsr.isTerminated())
 		System.out.println("The Phaser is terminated");
+		
+		//test Fork/Join
+		MyRecursiveAction myRecursiveAction = new MyRecursiveAction(24);
+
+		ForkJoinPool forkJoinPool = new ForkJoinPool();
+		
+		forkJoinPool.invoke(myRecursiveAction);
+		
+		//streams
+		List<String> strings = Arrays.asList("one", "two", "three", "four", "five", "six", "seven");
+		
+		List<String> filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
+		System.out.println("Filtered strings:" + filtered);
+		
+		int count =  (int) strings.parallelStream().filter(string -> !string.isEmpty()).count();
+		System.out.println("Count for non-empty strings:" + count);
+		
+		String mergedString = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.joining(", "));
+		System.out.println("Merged String: " + mergedString);
+		
+		//hogwarts developers stuff
+		List<Developer> developers = hogwartsDeveloperDaoImpl.getDevelopers();
+		
+		List<Developer> filteredDevelopers = developers.stream().filter(developer -> !developers.isEmpty()).collect(Collectors.toList());
+		System.out.println("Filtered developers:" + filteredDevelopers);
+				
+		int developersCount = (int) developers.parallelStream().filter(developer -> !developers.isEmpty()).count();
+		System.out.println("Count for developers:" + developersCount);		
 	}	
 }
