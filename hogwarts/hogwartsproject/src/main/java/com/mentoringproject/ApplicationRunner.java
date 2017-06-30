@@ -29,9 +29,17 @@ import com.mentoringproject.hogwarts.developers.dao.HogwartsDeveloperDaoImpl;
 //import com.mentoringproject.hogwarts.developers.dao.HogwartsDeveloperDaoImplTest;
 import com.mentoringproject.hogwarts.developers.model.HogwartsDeveloper;
 import com.mentoringproject.hogwarts.developers.web.HogwartsDeveloperDTO;
+import com.mentoringproject.hogwarts.tasks.dao.HogwartsTaskDaoImpl;
 import com.mentoringproject.springcore.Hogwarts;
 import com.mentoringproject.troubleshooting.TestMemoryLeak;
 import com.mentoringproject.troubleshooting.TestThread;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
 import com.shared.model.developers.Developer;
 import com.shared.model.teams.TeamEnum;
 import com.shared.service.DeveloperDocumentXMLParser;
@@ -99,6 +107,8 @@ public class ApplicationRunner
 	
 		ApplicationContext context = new ClassPathXmlApplicationContext("file:src/main/resources/spring-beans.xml");
 		HogwartsDeveloperDaoImpl hogwartsDeveloperDaoImpl = (HogwartsDeveloperDaoImpl) context.getBean("hogwartsDeveloperDaoImpl");
+		
+		HogwartsTaskDaoImpl hogwartsTaskDaoImpl = (HogwartsTaskDaoImpl) context.getBean("hogwartsTaskDaoImpl");
 		
 //		hogwartsDeveloperDaoImpl.addDeveloper("Olga", "Tavgen", "java", "otavgen", "2", 3);
 		
@@ -219,6 +229,71 @@ public class ApplicationRunner
 		System.out.println("Filtered developers:" + filteredDevelopers);
 				
 		int developersCount = (int) developers.parallelStream().filter(developer -> !developers.isEmpty()).count();
-		System.out.println("Count for developers:" + developersCount);		
+		System.out.println("Count for developers:" + developersCount);	
+		
+		// mongo db
+		
+		 try{
+				
+	         // To connect to mongodb server
+	         MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
+				
+	         // Now connect to your databases
+	         DB db = mongoClient.getDB( "mongodb" );
+	         System.out.println("Connect to database successfully");
+	         
+	         boolean auth = db.authenticate("OlgaTavgen", "mongoPassword");
+	         System.out.println("Authentication: "+auth);
+	         
+	         DBCollection hogwartsCollection = db.createCollection("hogwartsCollection");
+	         System.out.println("Hogwarts Collection created successfully");
+	         
+	         BasicDBObject doc1 = new BasicDBObject("title", "HogwartsDoc1").
+	                 append("description", "Developers Document").
+	                 append("developers", hogwartsDeveloperDaoImpl.getDevelopers()).
+	                 append("mockFiled", "");
+	         
+	         BasicDBObject doc2 = new BasicDBObject("title", "HogwartsDoc2").
+	                 append("description", "Tasks Document").
+	                 append("tasks", hogwartsTaskDaoImpl.getTasks()).
+	                 append("mockFiled", "");
+	         
+	         hogwartsCollection.insert(doc1);
+	         hogwartsCollection.insert(doc2);
+	         System.out.println("Documents' count that were inserted: " + hogwartsCollection.getCount());
+	         
+	         // get all documents in collection ()
+	         DBCursor cursor = hogwartsCollection.find();
+	         int i = 1;
+				
+	         while (cursor.hasNext()) { 
+	            System.out.println("Inserted Document: "+i); 
+	            System.out.println(cursor.next()); 
+	            i++;
+	         }
+	         
+	         // update documents
+	         while (cursor.hasNext()) { 
+	        	 BasicDBObject updateDocument = (BasicDBObject) cursor.next();
+	             
+	             BasicDBObject update = updateDocument.append("updated", "true");
+	             
+	             hogwartsCollection.update(updateDocument, update); 
+	          }
+	 			
+	          System.out.println("Document updated successfully");
+	          cursor = hogwartsCollection.find();
+	 			
+	          int j = 1;
+	 			
+	          while (cursor.hasNext()) { 
+	             System.out.println("Updated Document: "+j); 
+	             System.out.println(cursor.next()); 
+	             j++;
+	          }
+				
+	      }catch(Exception e){
+	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      }	
 	}	
 }
